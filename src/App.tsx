@@ -384,48 +384,48 @@ return (
 const protGroups = [
 {
 title: “壽險保障”, color: “#6366f1”, bg: “rgba(99,102,241,0.10)”, icon: “🛡️”,
-items: [{ label: “壽險身故保額”, val: nv(prot.lifeInsurance) > 0 ? `${fmtW(nv(prot.lifeInsurance) * 10000)} 元` : “—” }],
+items: [{ label: “壽險身故保額”, val: nv(prot.lifeInsurance) > 0 ? `${fmtW(nv(prot.lifeInsurance) * 10000)} 元` : “-” }],
 },
 {
 title: “意外保障”, color: “#8b5cf6”, bg: “rgba(139,92,246,0.10)”, icon: “⚡”,
 items: [
-{ label: “意外身故保額”, val: nv(prot.accidentDeath) > 0 ? `${fmtW(nv(prot.accidentDeath) * 10000)} 元` : “—” },
-{ label: “意外實支”,     val: nv(prot.accidentReal) > 0 ? `${fmtW(nv(prot.accidentReal) * 10000)} 元` : “—” },
-{ label: “意外住院日額”, val: nv(prot.accidentHospitalDaily) > 0 ? `${nv(prot.accidentHospitalDaily).toLocaleString("zh-TW")} 元/日` : “—” },
+{ label: “意外身故保額”, val: nv(prot.accidentDeath) > 0 ? `${fmtW(nv(prot.accidentDeath) * 10000)} 元` : “-” },
+{ label: “意外實支”,     val: nv(prot.accidentReal) > 0 ? `${fmtW(nv(prot.accidentReal) * 10000)} 元` : “-” },
+{ label: “意外住院日額”, val: nv(prot.accidentHospitalDaily) > 0 ? `${nv(prot.accidentHospitalDaily).toLocaleString("zh-TW")} 元/日` : “-” },
 ],
 },
 {
 title: “醫療保障”, color: “#2563eb”, bg: “rgba(37,99,235,0.10)”, icon: “🏥”,
 items: [
-{ label: “住院定額”, val: nv(prot.medicalCoverage.hospitalDaily) > 0 ? `${nv(prot.medicalCoverage.hospitalDaily).toLocaleString("zh-TW")} 元/日` : “—” },
-{ label: “住院實支”, val: nv(prot.medicalCoverage.hospitalReal) > 0 ? `${nv(prot.medicalCoverage.hospitalReal).toLocaleString("zh-TW")} 元/日` : “—” },
-{ label: “手術定額”, val: nv(prot.medicalCoverage.surgeryLump) > 0 ? `${fmtW(nv(prot.medicalCoverage.surgeryLump) * 10000)} 元` : “—” },
-{ label: “手術實支”, val: nv(prot.medicalCoverage.surgeryReal) > 0 ? `${fmtW(nv(prot.medicalCoverage.surgeryReal) * 10000)} 元` : “—” },
-{ label: “醫療雜費”, val: nv(prot.medicalCoverage.medicalMisc) > 0 ? `${fmtW(nv(prot.medicalCoverage.medicalMisc) * 10000)} 元` : “—” },
+{ label: “住院定額”, val: nv(prot.medicalCoverage.hospitalDaily) > 0 ? `${nv(prot.medicalCoverage.hospitalDaily).toLocaleString("zh-TW")} 元/日` : “-” },
+{ label: “住院實支”, val: nv(prot.medicalCoverage.hospitalReal) > 0 ? `${nv(prot.medicalCoverage.hospitalReal).toLocaleString("zh-TW")} 元/日` : “-” },
+{ label: “手術定額”, val: nv(prot.medicalCoverage.surgeryLump) > 0 ? `${fmtW(nv(prot.medicalCoverage.surgeryLump) * 10000)} 元` : “-” },
+{ label: “手術實支”, val: nv(prot.medicalCoverage.surgeryReal) > 0 ? `${fmtW(nv(prot.medicalCoverage.surgeryReal) * 10000)} 元` : “-” },
+{ label: “醫療雜費”, val: nv(prot.medicalCoverage.medicalMisc) > 0 ? `${fmtW(nv(prot.medicalCoverage.medicalMisc) * 10000)} 元` : “-” },
 ],
 },
 {
 title: “重大疾病”, color: “#e11d48”, bg: “rgba(225,29,72,0.10)”, icon: “⚠️”,
 items: [
-{ label: “重大傷病一次金”, val: nv(prot.criticalIllness) > 0 ? `${fmtW(nv(prot.criticalIllness) * 10000)} 元` : “—” },
-{ label: “癌症一次金”,     val: nv(prot.cancerLumpsum) > 0 ? `${fmtW(nv(prot.cancerLumpsum) * 10000)} 元` : “—” },
-{ label: “化/放療補助金”,  val: nv(prot.cancerChemoDaily) > 0 ? `${nv(prot.cancerChemoDaily).toLocaleString("zh-TW")} 元/日` : “—” },
+{ label: “重大傷病一次金”, val: nv(prot.criticalIllness) > 0 ? `${fmtW(nv(prot.criticalIllness) * 10000)} 元` : “-” },
+{ label: “癌症一次金”,     val: nv(prot.cancerLumpsum) > 0 ? `${fmtW(nv(prot.cancerLumpsum) * 10000)} 元` : “-” },
+{ label: “化/放療補助金”,  val: nv(prot.cancerChemoDaily) > 0 ? `${nv(prot.cancerChemoDaily).toLocaleString("zh-TW")} 元/日` : “-” },
 ],
 },
 {
 title: “長照保障”, color: “#059669”, bg: “rgba(5,150,105,0.10)”, icon: “🏆”,
 items: [
-{ label: “長照一次金”,   val: nv(prot.ltcLumpsum) > 0 ? `${fmtW(nv(prot.ltcLumpsum) * 10000)} 元` : “—” },
-{ label: “長照月扶助金”, val: nv(prot.ltcMonthly) > 0 ? `${nv(prot.ltcMonthly).toLocaleString("zh-TW")} 元/月` : “—” },
+{ label: “長照一次金”,   val: nv(prot.ltcLumpsum) > 0 ? `${fmtW(nv(prot.ltcLumpsum) * 10000)} 元` : “-” },
+{ label: “長照月扶助金”, val: nv(prot.ltcMonthly) > 0 ? `${nv(prot.ltcMonthly).toLocaleString("zh-TW")} 元/月` : “-” },
 ],
 },
 {
 title: “養老保障”, color: “#d97706”, bg: “rgba(217,119,6,0.10)”, icon: “💰”,
 items: [
-{ label: “月收入”,   val: income > 0 ? money(income) : “—” },
-{ label: “月支出”,   val: expense > 0 ? money(expense) : “—” },
-{ label: “月淨儲蓄”, val: safeNetSave > 0 ? money(safeNetSave) : “—” },
-{ label: “現有儲蓄”, val: savings > 0 ? moneyW(savings) : “—” },
+{ label: “月收入”,   val: income > 0 ? money(income) : “-” },
+{ label: “月支出”,   val: expense > 0 ? money(expense) : “-” },
+{ label: “月淨儲蓄”, val: safeNetSave > 0 ? money(safeNetSave) : “-” },
+{ label: “現有儲蓄”, val: savings > 0 ? moneyW(savings) : “-” },
 { label: “退休目標”, val: moneyW(totalRetTarget) },
 ],
 },
@@ -684,7 +684,7 @@ return (
               {grp.items.map(item => (
                 <div key={item.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <span style={{ color: C.slate400, fontSize: 12, fontWeight: 600 }}>{item.label}</span>
-                  <span style={{ color: item.val === "—" ? C.slate600 : C.white, fontWeight: item.val === "—" ? 400 : 800, fontSize: item.val === "—" ? 12 : 14 }}>{item.val}</span>
+                  <span style={{ color: item.val === "-" ? C.slate600 : C.white, fontWeight: item.val === "-" ? 400 : 800, fontSize: item.val === "-" ? 12 : 14 }}>{item.val}</span>
                 </div>
               ))}
             </div>
@@ -814,7 +814,7 @@ content: (
 ].map(r => (
 <div key={r.label} style={{ display: “flex”, justifyContent: “space-between”, alignItems: “center”, paddingBottom: 10, borderBottom: `1px solid ${C.slate200}` }}>
 <span style={{ color: C.slate600, fontWeight: 700, fontSize: 15 }}>{r.label}</span>
-<span style={{ color: r.col, fontWeight: 900, fontSize: 18 }}>{r.val > 0 ? money(r.val) : “—”}</span>
+<span style={{ color: r.col, fontWeight: 900, fontSize: 18 }}>{r.val > 0 ? money(r.val) : “-”}</span>
 </div>
 ))}
 <div style={{ paddingTop: 4 }}>
