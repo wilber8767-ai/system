@@ -4,7 +4,7 @@ AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
 ResponsiveContainer, ReferenceLine, ReferenceDot,
 } from “recharts”;
 
-/* ─── Tailwind CDN + Fonts + Base CSS ───────────────────────────────────── */
+/* — Tailwind CDN + Fonts + Base CSS ———————————–– */
 function useTailwindCDN(): void {
 useEffect(() => {
 if (!document.getElementById(“tw-cdn”)) {
@@ -34,7 +34,7 @@ select { appearance: none; -webkit-appearance: none; }
 * { font-family: ‘Noto Sans TC’, sans-serif; }
 
 ```
-    /* ── Mobile (≤ 640px) ── */
+    /* -- Mobile (<= 640px) -- */
     @media (max-width: 640px) {
       .g3 { grid-template-columns: 1fr !important; }
       .g2 { grid-template-columns: 1fr !important; }
@@ -52,7 +52,7 @@ select { appearance: none; -webkit-appearance: none; }
       .spad { padding: 20px 16px !important; }
       .nav-wrap { padding: 12px 16px !important; }
     }
-    /* ── Tablet (641px – 1023px) ── */
+    /* -- Tablet (641px - 1023px) -- */
     @media (min-width: 641px) and (max-width: 1023px) {
       .g3 { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
       .gprot { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
@@ -69,7 +69,7 @@ select { appearance: none; -webkit-appearance: none; }
 }, []);
 }
 
-/* ─── Colours ────────────────────────────────────────────────────────────── */
+/* — Colours ––––––––––––––––––––––––––––––– */
 const C = {
 indigo: “#4f46e5”, violet: “#7c3aed”, rose: “#e11d48”,
 emerald: “#059669”, amber: “#d97706”, white: “#ffffff”,
@@ -78,7 +78,7 @@ slate400: “#94a3b8”, slate500: “#64748b”, slate600: “#475569”,
 slate700: “#334155”, slate800: “#1e293b”, slate900: “#0f172a”,
 } as const;
 
-/* ─── Shared styles ──────────────────────────────────────────────────────── */
+/* — Shared styles –––––––––––––––––––––––––––– */
 const cardStyle: CSSProperties = {
 background: C.white, borderRadius: 20,
 boxShadow: “0 2px 24px rgba(0,0,0,0.07)”,
@@ -120,7 +120,7 @@ background: C.slate800, borderRadius: 20,
 padding: 24, border: `1px solid ${C.slate700}`,
 };
 
-/* ─── Types ──────────────────────────────────────────────────────────────── */
+/* — Types –––––––––––––––––––––––––––––––– */
 interface ClientInfo {
 name: string; birthdate: string; gender: string; occupation: string; phone: string;
 monthlyIncome: string; monthlyExpense: string; savings: string;
@@ -139,11 +139,11 @@ cancerLumpsum: string; cancerChemoDaily: string; cancerPremium: string;
 ltcLumpsum: string; ltcMonthly: string; ltcPremium: string;
 medicalCoverage: MedCoverage; medicalPremium: string;
 }
-interface CashflowRow { age: number; 資產規模: number; 通膨後年支出: number; }
+interface CashflowRow { age: number; assetValue: number; inflExpense: number; }
 interface TooltipPayload { name: string; value: number; color: string; }
 interface ChartTooltipProps { active?: boolean; payload?: TooltipPayload[]; label?: number; }
 
-/* ─── Helpers ────────────────────────────────────────────────────────────── */
+/* — Helpers ––––––––––––––––––––––––––––––– */
 function calcAge(bd: string): number {
 if (!bd) return 0;
 const t = new Date(), b = new Date(bd);
@@ -165,7 +165,7 @@ if (v >= 10_000) return `$${(v / 10_000).toFixed(0)}萬`;
 return `$${Math.round(v).toLocaleString("zh-TW")}`;
 }
 
-/* ─── Initial state ──────────────────────────────────────────────────────── */
+/* — Initial state –––––––––––––––––––––––––––– */
 const initClient: ClientInfo = {
 name: “”, birthdate: “”, gender: “”, occupation: “”, phone: “”,
 monthlyIncome: “”, monthlyExpense: “”, savings: “”,
@@ -181,7 +181,7 @@ medicalCoverage: { hospitalDaily: “”, hospitalReal: “”, surgeryLump: “
 medicalPremium: “”,
 };
 
-/* ─── Input components ───────────────────────────────────────────────────── */
+/* — Input components —————————————————– */
 function FocusInput(p: {
 value: string; onChange: (v: string) => void;
 placeholder?: string; prefix?: string; suffix?: string; highlight?: boolean;
@@ -253,7 +253,7 @@ boxShadow: f ? “0 0 0 4px rgba(79,70,229,0.14)” : “none”,
 >
 {p.options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
 </select>
-<span style={{ position: “absolute”, right: 14, top: “50%”, transform: “translateY(-50%)”, pointerEvents: “none”, color: C.slate400, fontSize: 18 }}>▾</span>
+<span style={{ position: “absolute”, right: 14, top: “50%”, transform: “translateY(-50%)”, pointerEvents: “none”, color: C.slate400, fontSize: 18 }}>></span>
 </div>
 );
 }
@@ -314,9 +314,9 @@ return (
 );
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/* ===========================================================================
 REPORT PAGE
-══════════════════════════════════════════════════════════════════════════════ */
+============================================================================== */
 function ReportPage(p: { client: ClientInfo; prot: ProtectionData; onBack: () => void }): JSX.Element {
 const { client, prot, onBack } = p;
 const age        = calcAge(client.birthdate);
@@ -345,7 +345,7 @@ let asset = savings;
 const rows: CashflowRow[] = [];
 for (let yr = age; yr <= 90; yr++) {
 const inflExp = expense * Math.pow(1 + INFL, yr - age);
-rows.push({ age: yr, 資產規模: Math.round(Math.max(asset, 0)), 通膨後年支出: Math.round(inflExp * 12) });
+rows.push({ age: yr, assetValue: Math.round(Math.max(asset, 0)), inflExpense: Math.round(inflExp * 12) });
 asset = yr < retAge
 ? asset * (1 + GROW) + safeNetSave * 12
 : Math.max(0, asset * 1.015 - inflExp * 12);
@@ -353,9 +353,9 @@ asset = yr < retAge
 return rows;
 }, [age, savings, safeNetSave, retAge, expense]);
 
-const depleteIdx  = cashflowData.findIndex((d, i) => i > 0 && d.資產規模 === 0 && cashflowData[i - 1].資產規模 > 0);
+const depleteIdx  = cashflowData.findIndex((d, i) => i > 0 && d.assetValue === 0 && cashflowData[i - 1].assetValue > 0);
 const depleteAge  = depleteIdx > 0 ? cashflowData[depleteIdx].age : null;
-const retAssetVal = cashflowData.find(d => d.age === retAge)?.資產規模 ?? 0;
+const retAssetVal = cashflowData.find(d => d.age === retAge)?.assetValue ?? 0;
 
 const medDailyHave = nv(prot.medicalCoverage.hospitalDaily) + nv(prot.medicalCoverage.hospitalReal);
 const medDailyGap  = Math.max(0, 5000 - medDailyHave);
@@ -470,7 +470,7 @@ return (
       ))}
     </div>
 
-    {/* ── Block 1: 退休缺口 ─────────────────────────────────────── */}
+    {/* -- Block 1: 退休缺口 --------------------------------------- */}
     <div style={darkCard}>
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
         <div style={{ background: "rgba(225,29,72,0.2)", borderRadius: 12, width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>🔥</div>
@@ -481,7 +481,7 @@ return (
       </div>
 
       {/* Step 1 */}
-      <div style={{ color: C.slate400, fontSize: 12, fontWeight: 700, marginBottom: 10, letterSpacing: 1 }}>STEP 1 ── 通膨侵蝕</div>
+      <div style={{ color: C.slate400, fontSize: 12, fontWeight: 700, marginBottom: 10, letterSpacing: 1 }}>STEP 1 -- 通膨侵蝕</div>
       <div className="gformula" style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) 36px minmax(0,1fr) 36px minmax(0,1fr)", gap: 8, alignItems: "center", marginBottom: 18 }}>
         <div style={{ background: "rgba(99,102,241,0.15)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: 14, padding: "14px 16px" }}>
           <div style={{ color: "#a5b4fc", fontSize: 12, fontWeight: 600, marginBottom: 5 }}>📅 現在月支出</div>
@@ -504,7 +504,7 @@ return (
 
       {/* Step 2 */}
       <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 14, padding: "16px 18px", marginBottom: 18, border: `1px solid ${C.slate700}` }}>
-        <div style={{ color: C.slate400, fontSize: 12, fontWeight: 700, marginBottom: 12, letterSpacing: 1 }}>STEP 2 ── 退休月支出 × 12 × 20年 = 所需退休總資產</div>
+        <div style={{ color: C.slate400, fontSize: 12, fontWeight: 700, marginBottom: 12, letterSpacing: 1 }}>STEP 2 -- 退休月支出 × 12 × 20年 = 所需退休總資產</div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", flexWrap: "wrap", gap: 8 }}>
           {[money(retMonthlyExp), "×", "12", "×", "20年", "="].map((t, i) => (
             <div key={i} style={{
@@ -542,7 +542,7 @@ return (
       </div>
     </div>
 
-    {/* ── Block 2: 現金流 ──────────────────────────────────────── */}
+    {/* -- Block 2: 現金流 ---------------------------------------- */}
     <div style={darkCard}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 10, marginBottom: 16 }}>
         <div>
@@ -550,7 +550,7 @@ return (
           <div style={{ color: C.slate400, fontSize: 13, marginTop: 3 }}>資產累積 vs 退休後通膨支出</div>
         </div>
         <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap" }}>
-          {[{ c: "#6366f1", l: "資產規模" }, { c: "#fb7185", l: "年度支出" }].map(x => (
+          {[{ c: "#6366f1", l: "assetValue" }, { c: "#fb7185", l: "年度支出" }].map(x => (
             <div key={x.l} style={{ display: "flex", alignItems: "center", gap: 6 }}>
               <div style={{ width: 20, height: 4, background: x.c, borderRadius: 2 }} />
               <span style={{ color: C.slate400, fontSize: 12 }}>{x.l}</span>
@@ -593,8 +593,8 @@ return (
             <ReferenceDot x={depleteAge} y={0} r={8} fill="#e11d48" stroke="#ffffff" strokeWidth={2}
               label={{ value: `${depleteAge}歲枯竭`, position: "top", fill: "#fb7185", fontSize: 11 }} />
           )}
-          <Area type="monotone" dataKey="資產規模" stroke="#6366f1" strokeWidth={3} fill="url(#ag2)" />
-          <Area type="monotone" dataKey="通膨後年支出" stroke="#fb7185" strokeWidth={2} strokeDasharray="5 3" fill="url(#eg2)" />
+          <Area type="monotone" dataKey="assetValue" stroke="#6366f1" strokeWidth={3} fill="url(#ag2)" />
+          <Area type="monotone" dataKey="inflExpense" stroke="#fb7185" strokeWidth={2} strokeDasharray="5 3" fill="url(#eg2)" />
         </AreaChart>
       </ResponsiveContainer>
       <div className="gsnap" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0,1fr))", gap: 10, marginTop: 14 }}>
@@ -612,7 +612,7 @@ return (
       </div>
     </div>
 
-    {/* ── Block 3: 四大金律 ─────────────────────────────────────── */}
+    {/* -- Block 3: 四大金律 --------------------------------------- */}
     <div style={darkCard}>
       <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
         <div style={{ background: "rgba(225,29,72,0.2)", borderRadius: 12, width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>⚔️</div>
@@ -658,7 +658,7 @@ return (
       </div>
     </div>
 
-    {/* ── Block 4: 六大保障彙整 ────────────────────────────────── */}
+    {/* -- Block 4: 六大保障彙整 ---------------------------------- */}
     <div style={darkCard}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20, flexWrap: "wrap", gap: 12 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -707,9 +707,9 @@ return (
 );
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
+/* ===========================================================================
 MAIN APP
-══════════════════════════════════════════════════════════════════════════════ */
+============================================================================== */
 export default function App(): JSX.Element {
 useTailwindCDN();
 const [client, setClient]         = useState<ClientInfo>(initClient);
@@ -851,7 +851,7 @@ return (
 <div style={{ minHeight: “100vh”, background: “linear-gradient(160deg,#eef2ff 0%,#f1f5f9 50%,#f0fdf4 100%)” }}>
 
 ```
-  {/* ── Sticky Nav ─────────────────────────────────────────────── */}
+  {/* -- Sticky Nav ----------------------------------------------- */}
   <div
     className="nav-wrap"
     style={{ background: "linear-gradient(135deg,#1e1b4b,#312e81,#4c1d95)", padding: "14px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", boxShadow: "0 4px 24px rgba(0,0,0,0.25)", position: "sticky", top: 0, zIndex: 100 }}
@@ -879,7 +879,7 @@ return (
     </div>
   </div>
 
-  {/* ── Page body ──────────────────────────────────────────────── */}
+  {/* -- Page body ------------------------------------------------ */}
   <div style={{ maxWidth: 1200, margin: "0 auto", padding: "20px 16px", display: "flex", flexDirection: "column", gap: 20 }}>
 
     {/* Client Info */}
