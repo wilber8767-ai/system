@@ -563,7 +563,7 @@ function Report({client,prot,onBack}:{client:Client;prot:Prot;onBack:()=>void}){
                       標竿：<span style={{color:"#fbbf24",fontWeight:800}}>{item.stdL}</span>
                     </div>
                     <div style={{color:C.s500,fontSize:11,marginBottom:10}}>
-                      現有：<span style={{color:ok?"#34d399":C.s300,fontWeight:700}}>{item.have>0?item.haveStr:"未投保"}</span>
+                      現有：<span style={{color:ok?"#34d399":"#cbd5e1",fontWeight:700}}>{item.have>0?item.haveStr:"未投保"}</span>
                     </div>
                     <div style={{height:7,background:"rgba(255,255,255,0.08)",borderRadius:999,overflow:"hidden",marginBottom:10}}>
                       <div style={{height:"100%",width:`${pct}%`,background:ok?"linear-gradient(90deg,#10b981,#34d399)":"linear-gradient(90deg,#e11d48,#fb7185)",borderRadius:999}}/>
